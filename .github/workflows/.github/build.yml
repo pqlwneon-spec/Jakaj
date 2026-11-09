@@ -1,0 +1,21 @@
+name: Build HTML to iOS App
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare Web App
+        run: |
+          mkdir -p Payload
+          cp index.html Payload/
+          cd Payload && zip -r ../App.zip index.html
+          cd .. && mv App.zip App.ipa
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Generated-IPA
+          path: App.ipa
