@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Task Hero: Christmas & Santa Edition</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(135deg,#070f1e,#0f1c32 50%,#170724);min-height:100vh;color:#f8fafc;padding-bottom:50px;overflow-x:hidden}
+body.theme-forest{background:linear-gradient(135deg,#052e16,#064e3b 50%,#022c22)}
+body.theme-aurora{background:linear-gradient(135deg,#030712,#0f766e 50%,#3b0764)}
+body.theme-castle{background:linear-gradient(135deg,#1e1b4b,#312e81 50%,#4338ca)}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.c{max-width:1100px;margin:0 auto;padding:0 16px;position:relative;z-index:10}
+header{background:rgba(15,23,42,.92);backdrop-filter:blur(14px);border-bottom:2px solid rgba(220,38,38,.4);position:sticky;top:env(safe-area-inset-top,0px);z-index:40;padding:10px 0}
+.hc{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.logo{display:flex;align-items:center;gap:10px}
+.li{width:42px;height:42px;background:linear-gradient(135deg,#dc2626,#f59e0b);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.at{font-size:1.05rem;font-weight:900;background:linear-gradient(90deg,#f87171,#fde047,#34d399);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.st{font-size:.72rem;color:#94a3b8;font-weight:600}
+.hb{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.btn{background:rgba(30,41,59,.9);border:1px solid rgba(245,158,11,.5);color:#fbbf24;padding:8px 11px;border-radius:12px;font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none}
+.btn:hover{background:rgba(245,158,11,.25)}
+.red{background:linear-gradient(135deg,#dc2626,#991b1b);border-color:#ef4444;color:#fff}
+.tg{background:#0088cc;color:#fff;border:none;justify-content:center}
+.eb{background:rgba(168,85,247,.2);border:1px solid #c084fc;color:#e9d5ff;padding:6px 11px;border-radius:12px;font-weight:800;font-size:.85rem}
+.dream{background:linear-gradient(135deg,rgba(220,38,38,.3),rgba(245,158,11,.25));border:1px solid rgba(245,158,11,.7);border-radius:20px;padding:14px 18px;margin:14px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dream small{font-size:.72rem;color:#fbbf24;font-weight:800}
+.dream h2{font-size:1.2rem;font-weight:900}
+.card{background:rgba(30,41,59,.8);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);margin-bottom:16px}
+.gold{border-color:rgba(245,158,11,.5)}.rd{border-color:rgba(220,38,38,.5)}.gr{border-color:rgba(16,185,129,.5)}
+.evs{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.ev{background:linear-gradient(135deg,rgba(30,41,59,.95),rgba(15,23,42,.95));border-radius:18px;padding:14px;border:1px solid rgba(245,158,11,.35);cursor:pointer;position:relative;transition:.25s}
+.ev:hover{transform:translateY(-4px);border-color:#f59e0b}
+.ev b{position:absolute;top:8px;inset-inline-start:8px;background:#dc2626;font-size:.62rem;padding:2px 7px;border-radius:9px}
+.ev .e{font-size:2rem;margin:14px 0 4px}
+.ev h4{font-size:.92rem}.ev p{font-size:.72rem;color:#cbd5e1;margin-top:3px}
+.bar{background:#0f172a;height:16px;border-radius:10px;padding:2px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#ef4444,#eab308,#10b981);border-radius:8px;width:0;transition:width .5s}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.main{display:grid;grid-template-columns:2fr 1.1fr;gap:16px}
+@media(max-width:800px){.g2,.main{grid-template-columns:1fr}}
+.wheelbox{position:relative;width:220px;height:220px;margin:12px auto 8px}
+#wheel{width:100%;height:100%;border-radius:50%;border:4px solid #f59e0b;transition:transform 4s cubic-bezier(.15,.99,.15,.99)}
+.ptr{position:absolute;top:-12px;left:50%;transform:translateX(-50%);border:12px solid transparent;border-top:22px solid #ef4444;border-bottom:0;z-index:5}
+.go{width:100%;padding:11px;background:linear-gradient(90deg,#059669,#0d9488);color:#fff;border:none;border-radius:14px;font-weight:800;cursor:pointer;font-size:.9rem}
+.go:disabled{opacity:.6}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#0f172a;padding:6px;border-radius:14px;margin-bottom:14px}
+.mode{background:transparent;border:0;color:#94a3b8;padding:8px 2px;font-size:.72rem;font-weight:700;border-radius:10px;cursor:pointer}
+.mode.on{background:#dc2626;color:#fff}
+.tbox{position:relative;width:170px;height:170px;margin:0 auto;display:flex;align-items:center;justify-content:center}
+.tbox svg{transform:rotate(-90deg);width:100%;height:100%}
+#tdisp{position:absolute;font-size:2.3rem;font-weight:900;font-family:monospace}
+.in{background:#0f172a;border:1px solid #334155;padding:10px 13px;border-radius:12px;color:#fff;outline:none;font-size:.85rem;width:100%}
+.in:focus{border-color:#f59e0b}
+.task{display:flex;align-items:center;justify-content:space-between;background:rgba(15,23,42,.6);border:1px solid #334155;padding:10px 12px;border-radius:14px;margin-bottom:7px;gap:8px}
+.task.done{opacity:.6;text-decoration:line-through}
+.log{display:flex;justify-content:space-between;background:rgba(15,23,42,.5);padding:8px 12px;border-radius:10px;margin-bottom:6px;font-size:.8rem}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.sc{background:rgba(15,23,42,.9);border:1px solid rgba(192,132,252,.4);border-radius:16px;padding:12px;text-align:center}
+.sc .a{font-size:1.1rem;font-weight:900;color:#c084fc}.sc .p{font-size:.78rem;color:#fbbf24;font-weight:800;margin:3px 0 8px}
+.wp{background:#0f172a;border:2px solid #334155;border-radius:16px;padding:12px;text-align:center}
+.wp.on{border-color:#10b981}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .3s}
+.ov.on{opacity:1;pointer-events:auto}
+.mb{background:#0f172a;border:2px solid #f59e0b;border-radius:24px;padding:22px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;text-align:center}
+.x{position:absolute;top:12px;inset-inline-start:12px;background:rgba(255,255,255,.1);border:0;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer}
+.pal{display:flex;gap:8px;justify-content:center;margin:10px 0;flex-wrap:wrap}
+.cb{width:30px;height:30px;border-radius:50%;border:2px solid #fff;cursor:pointer}
+.cb.on{transform:scale(1.25);box-shadow:0 0 10px #fff}
+#santa{background:#fff;border-radius:16px;display:block;margin:0 auto;max-width:100%;touch-action:none}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:20px;right:20px;max-width:380px;margin:0 auto;background:#0f172a;border:1px solid #f59e0b;padding:12px 16px;border-radius:14px;font-weight:700;font-size:.85rem;z-index:200;text-align:center}
+.mt{margin-top:10px}.sm{font-size:.8rem;color:#cbd5e1}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<header><div class="c hc">
+ <div class="logo"><div class="li">❄️</div><div><h1 class="at" data-t="appTitle">Task Hero: Christmas & Santa Edition 🎄</h1><p class="st" data-t="appSub">تطبيق تحديات الدراسة</p></div></div>
+ <div class="hb">
+  <div class="eb">🧪 <span id="elx">0</span></div>
+  <button class="btn red" onclick="om('store')">🛒 <span data-t="btnStore">متجر الإكسير</span></button>
+  <button class="btn" id="sndBtn" onclick="toggleSound()">🎵 <span data-t="btnSound">صوت الشتاء</span></button>
+  <button class="btn" onclick="om('set')">⚙️ <span data-t="btnSettings">الإعدادات</span></button>
+ </div></div></header>
+
+<div class="c">
+ <div class="dream"><div style="display:flex;gap:12px;align-items:center"><span style="font-size:2rem">🚀</span><div><small data-t="dreamTitle">🎯 حلم المستقبل والهدف الدراسي</small><h2 id="dream"></h2></div></div>
+  <button class="btn" onclick="om('dreamM')">✏️ <span data-t="btnEditDream">تعديل الحلم</span></button></div>
+
+ <div class="card gold"><div style="display:flex;justify-content:space-between;margin-bottom:10px">
+  <div><span class="sm" data-t="lvlRankLabel">الرتبة والمستوى</span><h3 id="rank" style="color:#fbbf24"></h3></div>
+  <div style="text-align:end"><span class="sm" data-t="xpLabel">نقاط الـ XP</span><h3 id="xpt" style="color:#34d399"></h3></div></div>
+  <div class="bar"><div class="fill" id="xpbar"></div></div></div>
+
+ <h3 style="color:#fbbf24;margin-bottom:10px" data-t="eventsTitle">🎉 أحداث ومسابقات الكريسماس</h3>
+ <div class="evs">
+  <div class="ev" onclick="om('box')"><b style="background:#9333ea" data-t="badge0">حدث جديد 🎁</b><div class="e">📦✨</div><h4 style="color:#c084fc" data-t="ev0Title">حدث الصندوق الغامض</h4><p data-t="ev0Desc">افتح بـ 30 أو 410 إكسير!</p></div>
+  <div class="ev" onclick="om('wpM')"><b style="background:#2563eb">🖼️</b><div class="e">🏔️❄️</div><h4 style="color:#60a5fa" data-t="evWpTitle">متجر الخلفيات الشتوية</h4><p data-t="evWpDesc">4 خلفيات (60 🧪)</p></div>
+  <div class="ev" onclick="om('sec')"><b data-t="badge1">جائزة 1$ 💵</b><div class="e">🎁🔒</div><h4 style="color:#fbbf24" data-t="ev1Title">خزنة بابا نويل السحرية</h4><p data-t="ev1Desc">فك الشفرة السرية!</p></div>
+  <div class="ev" onclick="om('pred')"><b style="background:#059669" data-t="badge2">ربح 5$ 🎁</b><div class="e">🔮</div><h4 style="color:#34d399" data-t="ev2Title">توقع فكرة الحدث القادم</h4><p data-t="ev2Desc">شاركونا أفكاركم!</p></div>
+  <div class="ev" onclick="openSanta()"><b style="background:#2563eb" data-t="badge3">+10 XP 🎨</b><div class="e">🎅</div><h4 style="color:#60a5fa" data-t="ev3Title">حدث تلوين بابا نويل</h4><p data-t="ev3Desc">لوّن الرسمة واحصل على 10XP</p></div>
+  <div class="ev" onclick="startTank()"><b style="background:#e11d48" data-t="badge4">تحدي القتال 🎖️</b><div class="e">🚀</div><h4 style="color:#f43f5e" data-t="ev4Title">حدث معركة الدبابات</h4><p data-t="ev4Desc">دمر الدبابات واجمع XP</p></div>
+ </div>
+
+ <div class="main"><div>
+  <div class="g2">
+   <div class="card gold" style="text-align:center;margin:0"><h3 style="color:#fbbf24;font-size:.95rem" data-t="wheelTitle">🎡 عجلة التحديات الشتوية</h3>
+    <div class="wheelbox"><div class="ptr"></div><canvas id="wheel" width="220" height="220"></canvas></div>
+    <button class="go" id="spin" onclick="spinWheel()">🌀</button></div>
+   <div class="card gr" style="margin:0"><h3 style="color:#34d399;font-size:.95rem;margin-bottom:10px" data-t="customTaskTitle">🎯 مهمة اليوم المخصصة</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+     <input class="in" id="tIn" placeholder="أدخل المهمة الدراسية...">
+     <div style="display:flex;gap:8px"><input class="in" id="tXp" type="number" min="10" max="500" value="40" style="width:80px"><button class="btn" style="background:#059669;color:#fff;border:0;flex:1;justify-content:center" onclick="addTask()">+</button></div></div>
+    <div id="tasks" class="mt" style="max-height:150px;overflow-y:auto"></div></div>
+  </div>
+  <div class="card rd"><div style="display:flex;justify-content:space-between;margin-bottom:12px"><h3 data-t="pomoTitle">⏱️ مؤقت بومودورو الشتوي</h3></div>
+   <div class="modes"><button class="mode on" id="m-study" onclick="setMode('study')">دراسة (25د)</button><button class="mode" id="m-shortBreak" onclick="setMode('shortBreak')">استراحة (5د)</button><button class="mode" id="m-longBreak" onclick="setMode('longBreak')">راحة طويلة (15د)</button></div>
+   <div class="tbox"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" stroke="#1e293b" stroke-width="8" fill="none"/><circle id="tring" cx="50" cy="50" r="44" stroke="#ef4444" stroke-width="8" fill="none" stroke-dasharray="276.46" stroke-linecap="round"/></svg><div id="tdisp">25:00</div></div>
+   <div style="display:flex;gap:8px;margin-top:14px"><button class="go" id="tbtn" onclick="toggleTimer()">ابدأ الدراسة (+25 XP)</button><button class="btn" onclick="resetTimer()">🔄</button></div></div>
+ </div>
+ <div><div class="card"><h3 style="color:#fbbf24" data-t="logTitle">📜 سجل إنجازات اليوم</h3><p class="st mt" data-t="logSub">التحديات والمهمات المكتملة:</p><div id="hist" class="mt" style="max-height:480px;overflow-y:auto"></div></div></div></div>
+</div>
+
+<!-- MODALS -->
+<div class="ov" id="box"><div class="mb" style="border-color:#c084fc"><button class="x" onclick="cm('box')">✕</button>
+ <div style="font-size:3rem">📦✨</div><h3 style="color:#c084fc" data-t="boxHead">حدث الصندوق الغامض 🎁</h3><p class="sm mt" data-t="boxSub">افتح الصناديق واكسب XP وجوائز!</p>
+ <div style="display:flex;gap:10px;margin:14px 0"><button class="go" style="background:#9333ea" onclick="openBox(1)">📦 1 (30 🧪)</button><button class="go" style="background:#d97706" onclick="openBox(10)">🎁🔥 10 (410 🧪)</button></div>
+ <div id="boxRes" style="display:none;background:rgba(15,23,42,.9);border:1px solid #c084fc;padding:12px;border-radius:14px;max-height:200px;overflow-y:auto;font-size:.85rem;text-align:start"></div></div></div>
+
+<div class="ov" id="wpM"><div class="mb" style="border-color:#60a5fa"><button class="x" onclick="cm('wpM')">✕</button>
+ <div style="font-size:3rem">🖼️❄️</div><h3 style="color:#60a5fa">متجر الخلفيات الشتوية</h3><p class="sm mt">سعر الخلفية: 60 🧪</p>
+ <div id="wpGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:14px"></div></div></div>
+
+<div class="ov" id="store"><div class="mb"><button class="x" onclick="cm('store')">✕</button>
+ <div style="font-size:3rem">🧪🛒</div><h3 style="color:#c084fc" data-t="storeHead">متجر عملة الإكسير</h3><p class="sm mt" data-t="storeSub">اختر الباقة وأدخل كود الشحن</p>
+ <div style="background:rgba(0,136,204,.2);border:1px solid #0088cc;padding:12px;border-radius:14px;margin:14px 0"><p class="mt" style="color:#7dd3fc;font-weight:800;margin:0 0 8px" data-t="tmeBuyNotice">للشراء تواصل عبر التليجرام:</p><a class="btn tg" style="width:100%" href="https://t.me/q5_qe" target="_blank" rel="noopener">📲 Telegram (@q5_qe)</a></div>
+ <div class="sg" id="pk"></div></div></div>
+
+<div class="ov" id="sec"><div class="mb"><button class="x" onclick="cm('sec')">✕</button>
+ <div style="font-size:3rem">🎁🔒</div><h3 style="color:#fbbf24" data-t="secHead">خزنة بابا نويل السريّة 🎄</h3><p class="sm mt" data-t="secDesc">أدخل الرقم السري!</p>
+ <input class="in mt" id="secIn" type="password" maxlength="8" placeholder="****" style="text-align:center;font-size:1.3rem;letter-spacing:4px">
+ <div class="mt"><label class="sm" data-t="customXpLabel">حدد كمية الـ XP:</label><input class="in mt" id="secXp" type="number" min="10" max="1000" value="50" style="text-align:center"></div>
+ <button class="go mt" onclick="checkSecret()" data-t="secBtn">فتح الخزنة 🔓</button>
+ <div id="secOk" style="display:none;margin-top:14px;background:rgba(16,185,129,.2);border:1px solid #10b981;padding:12px;border-radius:14px"><h4 style="color:#34d399" data-t="secWinTitle">🎉 مبروك! فزت بجائزة 1$!</h4><a class="btn tg mt" href="https://t.me/q5_qe" target="_blank" rel="noopener">@q5_qe 🚀</a></div></div></div>
+
+<div class="ov" id="pred"><div class="mb"><button class="x" onclick="cm('pred')">✕</button>
+ <div style="font-size:2.5rem">🔮</div><h3 style="color:#34d399" data-t="predHead">توقع فكرة الحدث القادم (ربح 5$)</h3><p class="sm mt" data-t="predSub">اكتب توقعك واضغط إرسال!</p>
+ <textarea class="in mt" id="predIn" rows="4" placeholder="اكتب توقعك هنا..." style="resize:none"></textarea>
+ <button class="go mt" style="background:#0284c7" onclick="sendPred()" data-t="predBtn">إرسال عبر تليجرام 🚀</button></div></div>
+
+<div class="ov" id="santaM"><div class="mb" style="max-width:440px"><button class="x" onclick="cm('santaM')">✕</button>
+ <h3 style="color:#60a5fa;margin-bottom:6px" data-t="santaHead">🎅 تلوين بابا نويل (+10 XP)</h3><div class="pal" id="pal"></div>
+ <canvas id="santa" width="280" height="280"></canvas>
+ <div style="display:flex;gap:8px;margin-top:12px"><button class="go" onclick="finishColor()" data-t="santaDone">إكمال والحصول على 10XP ✨</button><button class="btn" onclick="drawSanta()">🔄</button></div>
+ <a class="btn tg mt" style="width:100%" href="https://t.me/q5_qe" target="_blank" rel="noopener">📲 @q5_qe</a></div></div>
+
+<div class="ov" id="wres"><div class="mb"><button class="x" onclick="cm('wres')">✕</button>
+ <div style="font-size:3rem">🎉</div><h3 style="color:#fbbf24" data-t="wheelWinTitle">ربحت تحدي جديد!</h3>
+ <p id="wtxt" style="font-weight:800;margin:12px 0;background:rgba(245,158,11,.2);padding:12px;border-radius:14px;border:1px solid #f59e0b"></p>
+ <button class="go" style="background:#0284c7" onclick="shareWheel()" data-t="btnWheelProof">📸 إثبات التحدي عبر Telegram</button></div></div>
+
+<div class="ov" id="set"><div class="mb"><button class="x" onclick="cm('set')">✕</button>
+ <h3 style="color:#fbbf24;margin-bottom:14px" data-t="setHead">⚙️ إعدادات التطبيق</h3>
+ <div class="card" style="text-align:start"><label class="sm"><span data-t="fpsLabel">معدل الفريمات (FPS):</span> <b id="fpsV" style="color:#fbbf24">60</b></label>
+  <input type="range" id="fps" min="10" max="60" step="5" value="60" oninput="setFps(this.value)" style="width:100%;accent-color:#f59e0b;margin-top:8px"></div>
+ <div class="card" style="text-align:start"><label class="sm" data-t="langLabel">لغة التطبيق:</label>
+  <select class="in mt" id="lang" onchange="setLang(this.value)"><option value="ar">العربية 🇸🇦</option><option value="tr">Türkçe 🇹🇷</option><option value="en">English 🇬🇧</option><option value="ku">کوردی ☀️</option></select></div></div></div>
+
+<div class="ov" id="dreamM"><div class="mb"><button class="x" onclick="cm('dreamM')">✕</button>
+ <div style="font-size:3rem">🎓</div><h3 style="color:#fbbf24" data-t="dreamHead">حدد حلمك وهدفك الدراسي</h3><p class="sm mt" data-t="dreamSub">اكتب هدفك ليكون دافعك اليومي!</p>
+ <input class="in mt" id="dreamIn" maxlength="40" placeholder="مثلاً: أصير طيار / أصير طبيب..." style="text-align:center;margin-bottom:14px">
+ <button class="go" onclick="saveDream()" data-t="dreamSaveBtn">حفظ الحلم 🌟</button></div></div>
+
+<div class="ov" id="tankM"><div class="mb" style="max-width:480px;padding:16px"><button class="x" onclick="closeTank()">✕</button>
+ <div style="display:flex;justify-content:space-between;background:#1e293b;padding:8px 14px;border-radius:12px;margin:34px 0 10px"><div id="hearts"></div><div style="font-weight:800;color:#fbbf24"><span data-t="tankScoreLabel">النقاط:</span> <span id="tscore">0</span></div></div>
+ <canvas id="tank" width="420" height="300" style="background:#090d16;border-radius:14px;border:2px solid #ef4444;touch-action:none;width:100%"></canvas>
+ <div style="display:flex;justify-content:space-between;margin-top:12px;gap:8px"><div style="display:flex;gap:8px"><button class="btn" id="bL" style="font-size:1.2rem">◀️</button><button class="btn" id="bR" style="font-size:1.2rem">▶️</button></div>
+ <button class="go" style="width:auto;padding:10px 20px;background:#dc2626" onclick="fire()" data-t="btnFire">إطلاق النار 💥</button></div>
+ <p class="st mt" data-t="tankControls">استخدم الأسهم والمسافة أو الأزرار</p></div></div>
+
+<script>
+const I18N={
+en:{appTitle:"Task Hero: Christmas & Santa Edition 🎄",appSub:"Reignite your study motivation!",btnStore:"Elixir Store",btnSound:"Winter Audio",btnSettings:"Settings",dreamTitle:"🎯 Future Dream & Study Goal",btnEditDream:"Edit Dream",dreamHead:"Set Your Dream & Goal",dreamSub:"Write your target as daily motivation!",dreamSaveBtn:"Save Dream 🌟",lvlRankLabel:"Rank & Level",xpLabel:"XP Points",eventsTitle:"🎉 Exclusive Christmas Events",badge0:"New Event 🎁",ev0Title:"Mystery Box Event",ev0Desc:"Open for 30 or 410 Elixir!",evWpTitle:"Winter Wallpaper Store",evWpDesc:"4 winter wallpapers (60 🧪)",badge1:"$1 Reward 💵",ev1Title:"Santa's Secret Safe",ev1Desc:"Unlock the code & win $1!",badge2:"Win $5 🎁",ev2Title:"Predict Future Event",ev2Desc:"Share your idea, win $5!",badge3:"+10 XP 🎨",ev3Title:"Santa Coloring Event",ev3Desc:"Color Santa, get +10 XP",badge4:"Combat Challenge 🎖️",ev4Title:"Tank Battle Event",ev4Desc:"Destroy tanks, earn XP",wheelTitle:"🎡 Winter Challenge Wheel",customTaskTitle:"🎯 Custom Daily Task",pomoTitle:"⏱️ Winter Pomodoro Timer",logTitle:"📜 Today's Achievements",logSub:"Completed tasks & challenges:",boxHead:"Mystery Box Event 🎁",boxSub:"Open boxes for XP and rewards!",storeHead:"Elixir Currency Store",storeSub:"Pick a package and enter your top-up code",tmeBuyNotice:"To buy codes, contact us on Telegram:",secHead:"Santa's Secret Safe 🎄",secDesc:"Enter the secret passcode!",secBtn:"Unlock Safe 🔓",customXpLabel:"Choose how much XP to earn:",secWinTitle:"🎉 Congrats! You won $1!",predHead:"Predict Future Event (Win $5)",predSub:"Type your idea and send!",predBtn:"Send via Telegram 🚀",santaHead:"🎅 Santa Coloring (+10 XP)",santaDone:"Finish & Claim 10 XP ✨",wheelWinTitle:"You Won a New Challenge!",btnWheelProof:"📸 Share Proof via Telegram",setHead:"⚙️ App Settings",fpsLabel:"Frame Rate (FPS):",langLabel:"App Language:",tankScoreLabel:"Score:",btnFire:"Fire 💥",tankControls:"Arrow keys & Space, or the buttons on touch screens."},
+tr:{appTitle:"Task Hero: Noel Sürümü 🎄",appSub:"Ders motivasyonunuzu yeniden ateşleyin!",btnStore:"İksir Mağazası",btnSound:"Kış Sesi",btnSettings:"Ayarlar",dreamTitle:"🎯 Gelecek Hayali ve Hedefi",btnEditDream:"Hayali Düzenle",dreamHead:"Hayalinizi Belirleyin",dreamSub:"Günlük motivasyonunuz için hedefinizi yazın!",dreamSaveBtn:"Hayali Kaydet 🌟",lvlRankLabel:"Rütbe ve Seviye",xpLabel:"XP Puanları",eventsTitle:"🎉 Özel Noel Etkinlikleri",badge0:"Yeni Etkinlik 🎁",ev0Title:"Gizemli Kutu",ev0Desc:"30 veya 410 İksirle açın!",evWpTitle:"Kış Duvar Kağıtları",evWpDesc:"4 kış duvar kağıdı (60 🧪)",badge1:"1$ Ödül 💵",ev1Title:"Noel Baba'nın Kasası",ev1Desc:"Şifreyi çözün, 1$ kazanın!",badge2:"5$ Kazan 🎁",ev2Title:"Etkinliği Tahmin Et",ev2Desc:"Fikrinizi paylaşın, 5$ kazanın!",badge3:"+10 XP 🎨",ev3Title:"Noel Baba Boyama",ev3Desc:"Boyayın, +10 XP kazanın",badge4:"Savaş 🎖️",ev4Title:"Tank Savaşı",ev4Desc:"Tankları yok edin, XP toplayın",wheelTitle:"🎡 Kış Meydan Okuma Çarkı",customTaskTitle:"🎯 Günlük Özel Görev",pomoTitle:"⏱️ Kış Pomodoro",logTitle:"📜 Günün Başarıları",logSub:"Tamamlanan görevler:",boxHead:"Gizemli Kutu 🎁",boxSub:"XP ve ödüller için kutuları açın!",storeHead:"İksir Mağazası",storeSub:"Paketi seçin, yükleme kodunu girin",tmeBuyNotice:"Kod için Telegram'dan bize ulaşın:",secHead:"Noel Baba'nın Kasası 🎄",secDesc:"Gizli şifreyi girin!",secBtn:"Kasayı Aç 🔓",customXpLabel:"Kazanmak istediğiniz XP:",secWinTitle:"🎉 Tebrikler! 1$ kazandınız!",predHead:"Etkinliği Tahmin Et (5$)",predSub:"Fikrinizi yazıp gönderin!",predBtn:"Telegram'dan Gönder 🚀",santaHead:"🎅 Noel Baba Boyama (+10 XP)",santaDone:"Bitir ve 10 XP Al ✨",wheelWinTitle:"Yeni Bir Meydan Okuma!",btnWheelProof:"📸 Kanıtı Telegram'dan Paylaş",setHead:"⚙️ Ayarlar",fpsLabel:"Kare Hızı (FPS):",langLabel:"Dil:",tankScoreLabel:"Puan:",btnFire:"Ateş 💥",tankControls:"Yön tuşları ve Boşluk veya butonlar."},
+ku:{appTitle:"تەحەدی خوێندنی زستانە 🎄",appSub:"حەز و سۆزی خوێندنەوەت گەڕێنەوە!",btnStore:"فرۆشگای ئێکزیر",btnSound:"دەنگی زستان",btnSettings:"ڕێکخستنەکان",dreamTitle:"🎯 خەونی داهاتوو",btnEditDream:"دەستکاری خەون",dreamHead:"خەونەکەت دیاری بکە",dreamSub:"ئامانجەکەت بنووسە!",dreamSaveBtn:"پاشەکەوتکردن 🌟",lvlRankLabel:"ئاست و پلە",xpLabel:"خاڵەکانی XP",eventsTitle:"🎉 یاری و ئاهەنگەکانی کریسمس",badge0:"ڕووداوی نوێ 🎁",ev0Title:"سندوقی نهێنی",ev0Desc:"بە ٣٠ یان ٤١٠ ئێکسیر بکەرەوە!",evWpTitle:"فرۆشگای پاشبنەما",evWpDesc:"٤ پاشبنەما (٦٠ 🧪)",badge1:"خەڵاتی 1$ 💵",ev1Title:"خەزنەی بابا نوئێل",ev1Desc:"کۆدەکە بکەرەوە!",badge2:"بردنی 5$ 🎁",ev2Title:"پێشبینی ڕووداو",ev2Desc:"بیرۆکەکەت بنێرە!",badge3:"+10 XP 🎨",ev3Title:"ڕەنگکردنی بابا نوئێل",ev3Desc:"ڕەنگ بکە و 10XP وەربگرە",badge4:"جەنگ 🎖️",ev4Title:"شەڕی دەبابەکان",ev4Desc:"دەبابەکان تێکبشکێنە",wheelTitle:"🎡 چەرخی تەحەدی",customTaskTitle:"🎯 ئەرکی ئەمڕۆ",pomoTitle:"⏱️ پۆمۆدۆرۆ",logTitle:"📜 دەستکەوتەکانی ئەمڕۆ",logSub:"ئەرکە تەواوکراوەکان:",boxHead:"سندوقی نهێنی 🎁",boxSub:"سندوقەکان بکەرەوە!",storeHead:"فرۆشگای ئێکزیر",storeSub:"کۆدی شارژکردن بنووسە",tmeBuyNotice:"بۆ کڕین لە تێلیگرام پەیوەندی بکە:",secHead:"خەزنەی بابا نوئێل 🎄",secDesc:"کۆدە نهێنییەکە بنووسە!",secBtn:"کردنەوە 🔓",customXpLabel:"ڕێژەی XP:",secWinTitle:"🎉 پیرۆزە! 1$ت بردەوە!",predHead:"پێشبینی (5$)",predSub:"بیرۆکەکەت بنووسە!",predBtn:"ناردن 🚀",santaHead:"🎅 ڕەنگکردن (+10 XP)",santaDone:"تەواوکردن ✨",wheelWinTitle:"تەحەدییەکی نوێ!",btnWheelProof:"📸 ناردنی بەڵگە",setHead:"⚙️ ڕێکخستن",fpsLabel:"فریمات (FPS):",langLabel:"زمان:",tankScoreLabel:"خاڵ:",btnFire:"تەقە 💥",tankControls:"تەختەکلیل یان دوگمەکان."}
+};
+const RANKS=["محارب الثلج ❄️","نجم الكريسماس 🌟","بابا نويل المتفوق 🎅","أسطورة الشتاء 🏆"];
+const WPS=[{id:'theme-default',n:'❄️ ثلج داكن',p:0},{id:'theme-forest',n:'🎄 غابة الشتاء',p:60},{id:'theme-aurora',n:'🌌 الأضواء القطبية',p:60},{id:'theme-castle',n:'🏰 قلعة الجليد',p:60}];
+const rng=(s)=>Array.from({length:10},(_,i)=>String(s+i));
+const PK=[[60,'1,500',rng(150072)],[120,'2,500',rng(250073)],[240,'5,000',rng(500074)],[480,'10,000',rng(1000075)],[960,'20,000',rng(2000076)],[2000,'40,000',rng(4000077)],[12000,'120,000',rng(2299880)]];
+const KEY='xmasStudyApp2027';
+const DEF={xp:0,level:1,elixir:0,userDream:"أصير طيار 👨‍✈️✈️",santaColored:false,fps:60,lang:'ar',tasks:[],historyLog:[],redeemedCodes:[],unlockedWallpapers:['theme-default'],currentWallpaper:'theme-default'};
+let D;
+try{D=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'null')||{})}catch(e){D=Object.assign({},DEF)}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}render()}
+function om(id){$(id).classList.add('on');if(id==='wpM')renderWp();if(id==='store')renderStore()}
+function cm(id){$(id).classList.remove('on')}
+function toast(m){const o=document.querySelector('.toast');if(o)o.remove();const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3200)}
+function addXP(a){D.xp+=a;while(D.xp>=D.level*100){D.xp-=D.level*100;D.level++;toast('🌟 مبروك! صعدت للمستوى '+D.level+'!')}save()}
+function logH(title,xp){const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});D.historyLog.unshift({title,xp,time});if(D.historyLog.length>20)D.historyLog.pop()}
+function render(){
+ document.body.className=D.currentWallpaper;
+ $('elx').textContent=D.elixir;$('dream').textContent=D.userDream;
+ $('rank').textContent=RANKS[Math.min(D.level-1,RANKS.length-1)]+' (المستوى '+D.level+')';
+ const t=D.level*100;$('xpt').textContent=D.xp+' / '+t+' XP';$('xpbar').style.width=Math.min(100,D.xp/t*100)+'%';
+ if(I18N[D.lang])document.querySelectorAll('[data-t]').forEach(e=>{const v=I18N[D.lang][e.dataset.t];if(v)e.textContent=v});
+ $('fps').value=D.fps;$('fpsV').textContent=D.fps;$('lang').value=D.lang;
+ document.documentElement.dir=(D.lang==='ar'||D.lang==='ku')?'rtl':'ltr';document.documentElement.lang=D.lang;
+ const tl=$('tasks');tl.innerHTML='';
+ D.tasks.forEach(k=>{const d=document.createElement('div');d.className='task'+(k.completed?' done':'');
+  const l=document.createElement('label');l.style.cssText='display:flex;gap:8px;align-items:center;font-size:.85rem;font-weight:700';
+  const c=document.createElement('input');c.type='checkbox';c.checked=k.completed;c.onchange=()=>toggleTask(k.id);
+  const s=document.createElement('span');s.textContent=k.text;l.append(c,s);
+  const x=document.createElement('span');x.style.cssText='font-size:.75rem;color:#fbbf24;white-space:nowrap';x.textContent='+'+k.xp+' XP';d.append(l,x);tl.appendChild(d)});
+ const h=$('hist');h.innerHTML='';
+ if(!D.historyLog.length){const p=document.createElement('p');p.style.cssText='font-size:.75rem;color:#64748b;text-align:center';p.textContent='لا يوجد إنجازات مسجلة بعد.';h.appendChild(p)}
+ D.historyLog.forEach(e=>{const d=document.createElement('div');d.className='log';const a=document.createElement('div');
+  const b=document.createElement('div');b.style.fontWeight='700';b.textContent=e.title;const c=document.createElement('div');c.style.cssText='font-size:.65rem;color:#64748b';c.textContent=e.time;a.append(b,c);
+  const x=document.createElement('span');x.style.cssText='color:#34d399;font-weight:800';x.textContent='+'+e.xp;d.append(a,x);h.appendChild(d)})
+}
+/* wallpapers */
+function renderWp(){const g=$('wpGrid');g.innerHTML='';WPS.forEach(w=>{const on=D.currentWallpaper===w.id,un=D.unlockedWallpapers.includes(w.id);
+ const c=document.createElement('div');c.className='wp'+(on?' on':'');const h=document.createElement('h4');h.textContent=w.n;h.style.marginBottom='8px';c.appendChild(h);
+ if(on){const s=document.createElement('span');s.style.cssText='color:#10b981;font-weight:800;font-size:.8rem';s.textContent='مُفعلة ✔️';c.appendChild(s)}
+ else{const b=document.createElement('button');b.className='go';b.style.cssText='padding:5px 10px;font-size:.75rem;background:'+(un?'#2563eb':'#d97706');b.textContent=un?'تطبيق 🎨':'شراء بـ '+w.p+' 🧪';b.onclick=()=>un?setWp(w.id):buyWp(w);c.appendChild(b)}
+ g.appendChild(c)})}
+function setWp(id){D.currentWallpaper=id;save();renderWp();toast('🎨 تم تغيير الخلفية!')}
+function buyWp(w){if(D.elixir<w.p)return toast('⚠️ رصيد الإكسير غير كافٍ!');D.elixir-=w.p;D.unlockedWallpapers.push(w.id);logH('شراء خلفية جديدة',0);setWp(w.id)}
+/* mystery box */
+function openBox(n){const cost=n===1?30:410;if(D.elixir<cost)return toast('⚠️ رصيد الإكسير غير كافٍ! اشحن من المتجر.');
+ D.elixir-=cost;const box=$('boxRes');box.innerHTML='';box.style.display='block';let tot=0;
+ for(let i=0;i<n;i++){const r=Math.random()*100;let t,c='#fff';
+  if(n===10&&r<.2){t='👑💎 الجائزة الخارقة 10$ كاش! (@q5_qe)';c='#f43f5e'}
+  else if(n===10&&r<.8){t='🏆 الجائزة الكبرى 5$ كاش! (@q5_qe)';c='#ef4444'}
+  else if(n===1&&r<.2){t='💵 فزت بجائزة 2$! (@q5_qe)';c='#fbbf24'}
+  else if(r<1.8){t='💵 فزت بجائزة 1$ كاش! (@q5_qe)';c='#34d399'}
+  else if(r<5.8){t='🏷️ كود خصم 10%: DISCOUNT-'+Math.floor(1000+Math.random()*9000);c='#fbbf24'}
+  else if(r<25){const v=100+Math.floor(Math.random()*400);tot+=v;t='🌟 +'+v+' XP مكافأة كبرى!';c='#c084fc'}
+  else{const v=20+Math.floor(Math.random()*60);tot+=v;t='⭐ +'+v+' XP';c='#cbd5e1'}
+  const d=document.createElement('div');d.style.color=c;d.style.marginBottom='5px';d.textContent=(i+1)+'. '+t;box.appendChild(d)}
+ logH('فتح صندوق غامض ('+n+')',tot);if(tot)addXP(tot);else save()}
+/* store */
+function renderStore(){const g=$('pk');if(g.children.length)return;PK.forEach(([a,p],i)=>{const c=document.createElement('div');c.className='sc';if(a===12000)c.style.gridColumn='1/-1';
+ c.innerHTML='<div class="a">'+a.toLocaleString('en')+' 🧪</div><div class="p">السعر: '+p+' دينار</div>';
+ const inp=document.createElement('input');inp.className='in';inp.placeholder='كود الشحن...';inp.style.cssText='text-align:center;margin-bottom:6px';
+ const b=document.createElement('button');b.className='go';b.style.cssText='padding:7px;font-size:.8rem;background:#9333ea';b.textContent='شحن الكود ⚡';b.onclick=()=>redeem(inp,a);c.append(inp,b);g.appendChild(c)})}
+function redeem(inp,a){const v=inp.value.trim();if(!v)return toast('⚠️ يرجى إدخال كود الشحن!');
+ if(D.redeemedCodes.includes(v))return toast('❌ هذا الكود تم استخدامه مسبقاً!');
+ const list=PK.find(p=>p[0]===a)[2];if(!list.includes(v))return toast('❌ كود الشحن غير صحيح لهذه الباقة!');
+ D.elixir+=a;D.redeemedCodes.push(v);inp.value='';logH('شحن إكسير',a);save();toast('🎉 تم شحن '+a+' 🧪 بنجاح!')}
+/* sound */
+let ac=null,snd=false;
+function toggleSound(){try{if(!ac){ac=new(window.AudioContext||window.webkitAudioContext)();const n=ac.sampleRate*2,b=ac.createBuffer(1,n,ac.sampleRate),o=b.getChannelData(0);for(let i=0;i<n;i++)o[i]=(Math.random()*2-1)*.5;
+  const s=ac.createBufferSource();s.buffer=b;s.loop=true;const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=400;f.Q.value=3;s.connect(f);f.connect(ac.destination);s.start()}
+ if(snd){ac.suspend();snd=false;$('sndBtn').style.borderColor=''}else{ac.resume();snd=true;$('sndBtn').style.borderColor='#10b981';toast('🔊 تم تشغيل صوت الشتاء للتركيز!')}}catch(e){toast('⚠️ الصوت غير مدعوم')}}
+/* snow */
+const sc=$('snow'),sx=sc.getContext('2d');let fl=[],last=0;
+function initSnow(){sc.width=innerWidth;sc.height=innerHeight;fl=Array.from({length:50},()=>({x:Math.random()*sc.width,y:Math.random()*sc.height,r:Math.random()*3.5+1,d:Math.random()+.5}))}
+function snowLoop(t){requestAnimationFrame(snowLoop);if(t-last<1000/D.fps)return;last=t;sx.clearRect(0,0,sc.width,sc.height);sx.fillStyle='rgba(255,255,255,.8)';sx.beginPath();
+ fl.forEach(f=>{sx.moveTo(f.x,f.y);sx.arc(f.x,f.y,f.r,0,6.283);f.y+=f.d*1.2;f.x+=Math.sin(f.y/25);if(f.y>sc.height){f.y=0;f.x=Math.random()*sc.width}});sx.fill()}
+addEventListener('resize',initSnow);
+/* wheel */
+const WT=[{t:"دراسة 30 دقيقة بدون هاتف",x:35},{t:"حل 10 أسئلة مراجعة",x:40},{t:"قراءة 5 صفحات بتركيز",x:25},{t:"كتابة تلخيص سريع لفصل",x:50},{t:"استراحة شاي 10 دقائق ☕",x:15},{t:"شرح درس لزميل أو التفكير فيه",x:45}];
+let wAng=0,wSel=null;
+function drawWheel(){const c=$('wheel').getContext('2d'),n=WT.length,s=6.283185/n,cols=['#dc2626','#16a34a','#d97706','#2563eb','#9333ea','#0d9488'];
+ for(let i=0;i<n;i++){const a=i*s;c.beginPath();c.fillStyle=cols[i];c.moveTo(110,110);c.arc(110,110,105,a,a+s);c.lineTo(110,110);c.fill();c.stroke();
+  c.save();c.translate(110,110);c.rotate(a+s/2);c.fillStyle='#fff';c.font='bold 11px system-ui';c.fillText('+'+WT[i].x+'XP',50,4);c.restore()}}
+function spinWheel(){const b=$('spin');b.disabled=true;wAng+=1440+Math.floor(Math.random()*360);$('wheel').style.transform='rotate('+wAng+'deg)';
+ setTimeout(()=>{b.disabled=false;const ang=((270-wAng)%360+360)%360;wSel=WT[Math.floor(ang/(360/WT.length))]||WT[0];
+  $('wtxt').textContent=wSel.t+' (+'+wSel.x+' XP)';om('wres');logH('ربح عجلة: '+wSel.t,wSel.x);addXP(wSel.x)},4000)}
+function shareWheel(){if(!wSel)return;open('https://t.me/q5_qe?text='+encodeURIComponent('أنجزت التحدي من عجلة الكريسماس 🎡: "'+wSel.t+'" وحصلت على +'+wSel.x+' XP! 🚀'),'_blank')}
+/* pomodoro */
+let ti=null,tl=1500,tt=1500,tr=false,tm='study';
+function setMode(m){clearInterval(ti);tr=false;tm=m;$('tbtn').textContent='ابدأ الدراسة (+25 XP)';
+ ['study','shortBreak','longBreak'].forEach(k=>$('m-'+k).className='mode'+(k===m?' on':''));tt=tl=m==='study'?1500:m==='shortBreak'?300:900;tdraw()}
+function toggleTimer(){if(tr){clearInterval(ti);tr=false;$('tbtn').textContent='متابعة'}else{tr=true;$('tbtn').textContent='إيقاف مؤقت';
+ ti=setInterval(()=>{tl--;tdraw();if(tl<=0){clearInterval(ti);tr=false;if(tm==='study'){logH('جلسة دراسة 25 دقيقة',25);addXP(25);toast('🎉 أنجزت 25 دقيقة! +25 XP')}setMode('study')}},1000)}}
+function resetTimer(){clearInterval(ti);tr=false;tl=tt;$('tbtn').textContent='ابدأ الدراسة (+25 XP)';tdraw()}
+function tdraw(){$('tdisp').textContent=String(Math.floor(tl/60)).padStart(2,'0')+':'+String(tl%60).padStart(2,'0');$('tring').style.strokeDashoffset=276.46*(1-tl/tt)}
+/* secret */
+function checkSecret(){const v=$('secIn').value.trim(),x=parseInt($('secXp').value)||50;
+ if(v==='2027'||v==='٢٠٢٧'){$('secOk').style.display='block';logH('فك خزنة بابا نويل',x);addXP(x);toast('✅ +'+x+' XP وجائزة 1$!')}else toast('❌ الشفرة السرية خاطئة!')}
+function sendPred(){const t=$('predIn').value.trim();if(!t)return toast('⚠️ اكتب توقعك أولاً!');open('https://t.me/q5_qe?text='+encodeURIComponent('توقعي للحدث القادم: '+t),'_blank');cm('pred');toast('🚀 تم توجيه توقعك إلى تليجرام!')}
+/* santa */
+let cur='#dc2626';const COLS=['#dc2626','#16a34a','#eab308','#2563eb','#ffffff','#000000','#78350f','#f43f5e'];
+function openSanta(){om('santaM');const p=$('pal');p.innerHTML='';COLS.forEach(c=>{const b=document.createElement('div');b.className='cb'+(c===cur?' on':'');b.style.background=c;b.onclick=()=>{p.querySelectorAll('.cb').forEach(x=>x.classList.remove('on'));b.classList.add('on');cur=c};p.appendChild(b)});drawSanta()}
+function drawSanta(){const cv=$('santa'),c=cv.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,280,280);c.strokeStyle='#000';c.lineWidth=4;c.lineCap='round';
+ c.beginPath();c.moveTo(70,90);c.quadraticCurveTo(140,20,210,90);c.stroke();c.beginPath();c.arc(210,90,12,0,6.283);c.stroke();
+ c.beginPath();c.arc(140,120,40,0,6.283);c.stroke();c.beginPath();c.moveTo(100,130);c.quadraticCurveTo(140,220,180,130);c.stroke();
+ c.fillStyle='#000';[[125,110],[155,110]].forEach(([x,y])=>{c.beginPath();c.arc(x,y,4,0,6.283);c.fill()});c.beginPath();c.arc(140,122,5,0,6.283);c.stroke();
+ let dr=false;const pt=e=>{const r=cv.getBoundingClientRect(),p=e.touches?e.touches[0]:e;c.fillStyle=cur;c.beginPath();c.arc((p.clientX-r.left)*280/r.width,(p.clientY-r.top)*280/r.height,9,0,6.283);c.fill()};
+ cv.onmousedown=cv.ontouchstart=e=>{dr=true;pt(e)};cv.onmousemove=cv.ontouchmove=e=>{if(dr)pt(e)};cv.onmouseup=cv.ontouchend=cv.onmouseleave=()=>dr=false}
+function finishColor(){if(!D.santaColored){D.santaColored=true;logH('تلوين رسمة بابا نويل',10);addXP(10);toast('🎨 أكملت التلوين! +10 XP')}else toast('⭐ حصلت على الـ XP لهذا الحدث من قبل!');cm('santaM')}
+/* tank */
+let tid=null,P,bul,en,hp,scr,keys={};
+function startTank(){om('tankM');hp=5;scr=0;bul=[];en=[];P={x:190,y:250,w:36,h:26,s:5};hearts();$('tscore').textContent=0;
+ onkeydown=e=>{if(!$('tankM').classList.contains('on'))return;keys[e.code]=true;if(e.code==='Space'){e.preventDefault();fire()}};onkeyup=e=>keys[e.code]=false;
+ const hold=(id,k)=>{const b=$(id);b.onpointerdown=e=>{e.preventDefault();keys[k]=true};b.onpointerup=b.onpointerleave=()=>keys[k]=false};hold('bL','ArrowLeft');hold('bR','ArrowRight');
+ if(tid)cancelAnimationFrame(tid);tankLoop()}
+function fire(){if(bul&&bul.length<5)bul.push({x:P.x+P.w/2-3,y:P.y,w:6,h:10,s:7})}
+function hearts(){$('hearts').textContent='❤️'.repeat(hp)+'🖤'.repeat(5-hp)}
+function closeTank(){if(tid)cancelAnimationFrame(tid);cm('tankM')}
+function tankLoop(){const cv=$('tank'),c=cv.getContext('2d');c.fillStyle='#090d16';c.fillRect(0,0,cv.width,cv.height);
+ if(keys.ArrowLeft&&P.x>0)P.x-=P.s;if(keys.ArrowRight&&P.x<cv.width-P.w)P.x+=P.s;
+ c.fillStyle='#10b981';c.fillRect(P.x,P.y,P.w,P.h);c.fillStyle='#34d399';c.fillRect(P.x+12,P.y-8,12,10);
+ c.fillStyle='#fbbf24';for(let i=bul.length-1;i>=0;i--){const b=bul[i];b.y-=b.s;c.fillRect(b.x,b.y,b.w,b.h);if(b.y<-10)bul.splice(i,1)}
+ if(Math.random()<.035&&en.length<5)en.push({x:Math.random()*(cv.width-32),y:-25,w:32,h:24,s:1.2+Math.random()*1.5});
+ for(let i=en.length-1;i>=0;i--){const e=en[i];e.y+=e.s;c.fillStyle='#ef4444';c.fillRect(e.x,e.y,e.w,e.h);let hit=false;
+  for(let j=bul.length-1;j>=0;j--){const b=bul[j];if(b.x<e.x+e.w&&b.x+b.w>e.x&&b.y<e.y+e.h&&b.y+b.h>e.y){en.splice(i,1);bul.splice(j,1);scr+=10;$('tscore').textContent=scr;hit=true;break}}
+  if(hit)continue;
+  if(e.x<P.x+P.w&&e.x+e.w>P.x&&e.y<P.y+P.h&&e.y+e.h>P.y){en.splice(i,1);hp--;hearts();
+   if(hp<=0){logH('معركة الدبابات ('+scr+' نقطة)',scr);addXP(scr);toast('💥 انتهت اللعبة! +'+scr+' XP');setTimeout(closeTank,1500);return}}
+  else if(e.y>cv.height)en.splice(i,1)}
+ tid=requestAnimationFrame(tankLoop)}
+/* tasks & settings */
+function addTask(){const t=$('tIn').value.trim(),x=parseInt($('tXp').value)||30;if(!t)return;D.tasks.unshift({id:Date.now(),text:t,xp:x,completed:false});$('tIn').value='';save();toast('🎯 تم إضافة المهمة!')}
+function toggleTask(id){const k=D.tasks.find(t=>t.id===id);if(!k)return;k.completed=!k.completed;if(k.completed){logH('مهمة: '+k.text,k.xp);addXP(k.xp)}else save()}
+function setFps(v){D.fps=parseInt(v);save()}
+function setLang(l){D.lang=l;save()}
+function saveDream(){const v=$('dreamIn').value.trim();if(!v)return;D.userDream=v;save();cm('dreamM');toast('✨ تم حفظ حلم المستقبل!')}
+initSnow();requestAnimationFrame(snowLoop);drawWheel();render();tdraw();
+</script>
+</body>
+</html>
